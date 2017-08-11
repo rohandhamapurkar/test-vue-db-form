@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My first Vue app</title>
+  <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+  <h1></h1>
+  <div id="app">
+    <table class="table">
+      <tbody>
+      <tr v-for="item in rows">
+        <td>{{ item.title }} {{item.input}}  <input v-model="item.input"></td>
+      </tr>
+    </tbody>
+    </table>
+    <button v-on:click="add_one(rows.length)">Add one more</button>
+    <button v-on:click="add_one(rows.length)">Add one more</button>
+  </div>
+
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        message: 'This form is powered by vue js',
+        rows:[{title:"Item1",input:""},{title:"Item2",input:""}]
+      },
+      methods:{
+        add_one: function(count){
+          count+=1;
+          this.rows.push({title:"Item"+count,input:""});
+        }
+      }
+    })
+  </script>
+</body>
+</html>
