@@ -1,21 +1,64 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>My first Vue app</title>
   <script src="https://unpkg.com/vue"></script>
 </head>
+
 <body>
   <h1></h1>
   <div id="app">
+    Name:<input v-model="vendor.name"><br><br> Token:
+    <input v-model="vendor.token"><br><br> Address
+    <br><br> Area:
+    <input v-model="vendor.address.area"><br><br> Street:
+    <input v-model="vendor.address.street"><br><br> ShopDetails:
+    <input v-model="vendor.address.shopDetails"><br><br> ContactDetails:
+    <br><br> Mobile:
+    <input v-model="vendor.contactDetails.mobile"><br><br> LandLine:
+    <input v-model="vendor.contactDetails.landline"><br><br>
+    <p>Areas Of Delivery</p>
     <table class="table">
       <tbody>
-      <tr v-for="item in rows">
-        <td>{{ item.title }} {{item.input}}  <input v-model="item.input"></td>
-      </tr>
-    </tbody>
+        <tr v-for="item in vendor.areasOfDelivery">
+          <td>Pincode:{{item}}</td>
+        </tr>
+        Input:<input v-model="add">
+        <button v-on:click="add_one_pincode(add)">Add pincode</button>
+        <button v-on:click="remove_one_pincode(add)">Remove pincode</button>
+      </tbody>
     </table>
-    <button v-on:click="add_one(rows.length)">Add one more</button>
-    <button v-on:click="add_one(rows.length)">Add one more</button>
+    <br><br> OpeningTime:
+    <input v-model="vendor.openingTime"><br><br> ClosingTime:
+    <input v-model="vendor.closingTime"><br><br>
+    <p>Categories</p>
+    <table class="table">
+      <tbody>
+        <tr v-for="item in vendor.categories">
+          <td>Category:<input v-model="item.category"></td>
+        </tr>
+      </tbody>
+      <button v-on:click="add_one_category(vendor.categories.length)">Add one more category</button>
+      <button v-on:click="remove_one_category(vendor.categories.length)">Remove one more category</button>
+    </table>
+    <p>Menu</p>
+    <table class="table">
+      <tbody>
+        <tr v-for="menuitem in vendor.menu">
+          <td>DishName:<input v-model="menuitem.dishName"></td>
+          <td>MaxQuantity:<input v-model="menuitem.maxQuantity"></td>
+          <td>MinQuantity:<input v-model="menuitem.minQuantity"></td>
+          <td>FoodOrientation:<input v-model="menuitem.foodOrientation"></td>
+          <td>Category:<input v-model="menuitem.category"></td>
+          <td>Price:<input v-model="menuitem.price"></td>
+        </tr>
+      </tbody>
+      <button v-on:click="add_one_menuitem(vendor.menu.length)">Add one more menu item</button>
+      <button v-on:click="remove_one_menuitem(vendor.menu.length)">Remove one more menu item</button>
+    </table>
+    <br><br>
+    <button v-on:click="fire_mongo_query()">Submit</button>
   </div>
 
   <script>
@@ -23,15 +66,62 @@
       el: '#app',
       data: {
         message: 'This form is powered by vue js',
-        rows:[{title:"Item1",input:""},{title:"Item2",input:""}]
-      },
-      methods:{
-        add_one: function(count){
-          count+=1;
-          this.rows.push({title:"Item"+count,input:""});
+        add: "",
+        vendor: {
+          name: "",
+          token: "",
+          address: {
+            area: "",
+            street: "",
+            shopDetails: ""
+          },
+          contactDetails: {
+            mobile: "",
+            landline: ""
+          },
+          availibility: true,
+          areasOfDelivery: [],
+          openingTime: "",
+          closingTime: "",
+          orderCount: 0,
+          categories: [{ category: "" }],
+          orders: [],
+          menu: [{ dishName: "", maxQuantity: "", minQuantity: "", foodOrientation: "", category: "", price: "" }]
         }
+      },
+      methods: {
+        add_one_category: function (count) {
+          count += 1;
+          this.vendor.categories.push({ category: "" });
+        },
+        remove_one_category: function (count) {
+          if (count !== 1) {
+            this.vendor.categories.pop();
+          }
+        },
+        add_one_menuitem: function (count) {
+          count += 1;
+          this.vendor.menu.push({ category: "" });
+        },
+        remove_one_menuitem: function (count) {
+          if (count !== 1) {
+            this.vendor.menu.pop();
+          }
+        },
+        add_one_pincode: function (push) {
+          this.vendor.areasOfDelivery.push(push);
+        },
+        remove_one_pincode: function (push) {
+          this.vendor, areasOfDelivery, pop(push);
+        },
+        fire_mongo_query: function () {
+          console.log(this.vendor);
+          //add jquery here
+        }
+
       }
     })
   </script>
 </body>
+
 </html>
